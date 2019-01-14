@@ -1,11 +1,21 @@
 pipeline {
-  agent any
-  stages {
-    stage('start') {
-      steps {
-		echo 'hello world'
-		echo "${pwd()}"
-      }
+    agent any
+    stages {
+        stage('Build') {
+            steps {
+                echo 'make package'
+            }
+        }
+        stage('Test') {
+            steps {
+                echo 'make check'
+            }
+        }
+        stage('Deploy') {
+            when { tag "release-*" }
+            steps {
+                echo 'Deploying only because this commit is tagged...'
+            }
+        }
     }
-  }
 }
